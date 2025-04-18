@@ -1,6 +1,11 @@
 # onlyConnect
 A Game of connecting groups
 
+## Screenshots
+![Home Screen](assets/screenshots/home.png)
+![Game Screen](assets/screenshots/game.png)
+![Results Screen](assets/screenshots/results.png)
+
 ## Setup Instructions
 
 1. Make sure you have Node.js installed on your system
