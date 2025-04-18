@@ -1,0 +1,167 @@
+{
+  "groups": [
+    {
+      "words": ["ROSE", "TULIP", "DAISY", "LILY"],
+      "category": "FLOWERS",
+      "description": "Types of flowering plants"
+    },
+    {
+      "words": ["COPPER", "MERCURY", "LEAD", "ZINC"],
+      "category": "ELEMENTS",
+      "description": "Metallic chemical elements"
+    },
+    {
+      "words": ["CHESS", "GO", "CHECKERS", "BACKGAMMON"],
+      "category": "BOARD GAMES",
+      "description": "Strategic tabletop games"
+    },
+    {
+      "words": ["TWITTER", "THREAD", "POST", "REEL"],
+      "category": "SOCIAL MEDIA TERMS",
+      "description": "Common content formats online"
+    },
+    {
+      "words": ["PARIS", "ROME", "BERLIN", "MADRID"],
+      "category": "EUROPEAN CAPITALS",
+      "description": "Capital cities in Europe"
+    },
+    {
+      "words": ["MANGO", "PEACH", "AVOCADO", "OLIVE"],
+      "category": "FRUITS WITH PITS",
+      "description": "Fruits containing a single large seed"
+    },
+    {
+      "words": ["NEPTUNE", "URANUS", "VENUS", "MARS"],
+      "category": "PLANETS",
+      "description": "Planets in the solar system"
+    },
+    {
+      "words": ["VIOLET", "SCARLET", "CRIMSON", "LAVENDER"],
+      "category": "SHADES OF COLOR",
+      "description": "Variations of red/purple hues"
+    },
+    {
+      "words": ["VIOLIN", "CELLO", "VIOLA", "BASS"],
+      "category": "STRING INSTRUMENTS",
+      "description": "Played with a bow"
+    },
+
+    {
+      "words": ["PYTHON", "RUBY", "PERL", "JAVA"],
+      "category": "PROGRAMMING LANGUAGES",
+      "description": "Used to write code"
+    },
+    {
+      "words": ["BOW", "TIE", "RING", "KNOT"],
+      "category": "THINGS THAT TIE",
+      "description": "Involve loops or fastening"
+    },
+    {
+      "words": ["PITCH", "BASS", "NOTE", "KEY"],
+      "category": "MUSICAL TERMS",
+      "description": "Related to sound and tone"
+    },
+    {
+      "words": ["SOCRATES", "PLATO", "ARISTOTLE", "DESCARTES"],
+      "category": "PHILOSOPHERS",
+      "description": "Thinkers who shaped human reasoning"
+    },
+    {
+      "words": ["MONA", "LISA", "STARRY", "NIGHT"],
+      "category": "FAMOUS PAINTINGS (WORDS)",
+      "description": "Words found in iconic artworks' titles"
+    },
+    {
+      "words": ["CLOVER", "HORSESHOE", "PENNY", "RABBIT"],
+      "category": "LUCK SYMBOLS",
+      "description": "Often associated with good fortune"
+    },
+    {
+      "words": ["APPLE", "DELL", "HP", "LENOVO"],
+      "category": "COMPUTER BRANDS",
+      "description": "Manufacturers of laptops and desktops"
+    },
+    {
+      "words": ["GOLD", "SILVER", "BRONZE", "PLATINUM"],
+      "category": "MEDALS / METALS",
+      "description": "Award or material hierarchy"
+    },
+    {
+      "words": ["TANK", "JET", "DRONE", "SUBMARINE"],
+      "category": "MILITARY VEHICLES",
+      "description": "Used in combat scenarios"
+    },
+    {
+      "words": ["SPADE", "CLUB", "HEART", "DIAMOND"],
+      "category": "CARD SUITS",
+      "description": "Suits in a standard playing deck"
+    },
+    {
+      "words": ["FIRE", "EARTH", "WATER", "AIR"],
+      "category": "CLASSICAL ELEMENTS",
+      "description": "Ancient natural elements"
+    },
+    {
+      "words": ["GAS", "ELECTRIC", "HYBRID", "DIESEL"],
+      "category": "CAR POWER SOURCES",
+      "description": "How a vehicle is fueled"
+    },
+    {
+      "words": ["SHADE", "BLIND", "CURTAIN", "SHUTTER"],
+      "category": "WINDOW COVERINGS",
+      "description": "Used to block sunlight"
+    },
+    {
+      "words": ["EVEREST", "DENALI", "KILIMANJARO", "FUJI"],
+      "category": "MOUNTAINS",
+      "description": "Prominent global peaks"
+    },
+    {
+      "words": ["DIME", "NICKEL", "PENNY", "QUARTER"],
+      "category": "US COINS",
+      "description": "Small denominations of currency"
+    },
+    {
+      "words": ["TANGO", "SALSA", "WALTZ", "SAMBA"],
+      "category": "DANCE STYLES",
+      "description": "Pairs often move to the rhythm"
+    },
+    {
+      "words": ["HAMLET", "MACBETH", "LEAR", "OTHELLO"],
+      "category": "SHAKESPEAREAN TRAGEDIES",
+      "description": "Plays written by Shakespeare"
+    },
+    {
+      "words": ["ALPHA", "BRAVO", "CHARLIE", "DELTA"],
+      "category": "NATO PHONETIC ALPHABET",
+      "description": "Code words for letters"
+    },
+    {
+      "words": ["MERCEDES", "TESLA", "AUDI", "LEXUS"],
+      "category": "LUXURY CAR BRANDS",
+      "description": "High-end automobile companies"
+    },
+    {
+      "words": ["JOKER", "RIDDLER", "PENGUIN", "BANE"],
+      "category": "BATMAN VILLAINS",
+      "description": "Adversaries of the Dark Knight"
+    },
+    {
+      "words": ["JADE", "AMBER", "ONYX", "TOPAZ"],
+      "category": "GEMSTONES",
+      "description": "Valuable or ornamental stones"
+    },
+    {
+      "words": ["POKER", "BLACKJACK", "BRIDGE", "GIN"],
+      "category": "CARD GAMES",
+      "description": "Games played with a deck"
+    },
+    {
+      "words": ["KNOT", "MILE", "LEAGUE", "YARD"],
+      "category": "UNITS OF DISTANCE",
+      "description": "Ways to measure how far"
+    }
+  ]
+}
+
+
