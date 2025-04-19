@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "mini-mystery",
-    "slug": "mini-mystery",
+    "name": "Connections",
+    "slug": "connections",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -20,7 +20,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.ashwinipillai734.minimystery"
+      "package": "com.ashwinipillai734.connections"
     },
     "web": {
       "favicon": "./assets/favicon.png"
