@@ -42,8 +42,6 @@ yarn-error.log
 dist/
 web-build/
 
-#package
-.package-lock.json
 # Environment variables
 .env
 .env.local

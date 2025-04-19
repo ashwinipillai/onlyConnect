@@ -118,11 +118,7 @@ export function ConnectionsGame({ navigation }: ConnectionsGameProps) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground 
-        source={require('../assets/background.png')} 
-        style={styles.backgroundImage}
-        resizeMode="cover"
-      >
+      <View style={[styles.backgroundImage, { backgroundColor: '#f5f5f5' }]}>
         <View style={styles.gameContainer}>
           {solvedGroups.length === 4 && (
             <WinnerScreen 
@@ -225,7 +221,7 @@ export function ConnectionsGame({ navigation }: ConnectionsGameProps) {
             </View>
           </View>
         </View>
-      </ImageBackground>
+      </View>
     </SafeAreaView>
   );
 }

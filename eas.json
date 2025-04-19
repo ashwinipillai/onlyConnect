@@ -12,7 +12,17 @@
       "distribution": "internal"
     },
     "production": {
-      "autoIncrement": true
+      "autoIncrement": true,
+      "android": {
+        "buildType": "app-bundle",
+        "credentialsSource": "local",
+        "keystore": {
+          "keystorePath": "onlyConnect.jks",
+          "keystorePassword": "greeny1234@",
+          "keyAlias": "onlyconnect",
+          "keyPassword": "greeny1234@"
+        }
+      }
     }
   },
   "submit": {
