@@ -18,6 +18,7 @@ import { getRandomPuzzle, getTodaysPuzzle } from '../utils/puzzleUtils';
 import { WordGroups } from '../types/wordGroups';
 import { WinnerScreen } from '../app/components/WinnerScreen';
 import { saveGameState, loadGameState, clearGameState } from '../utils/gameState';
+import { GameOverScreen } from '../app/components/GameOverScreen';
 
 type RootStackParamList = {
   Home: undefined;
@@ -126,8 +127,18 @@ export function ConnectionsGame({ navigation }: ConnectionsGameProps) {
       setSolvedGroups(prev => [...prev, matchingGroup.category]);
       setSelectedWords([]);
     } else {
-      setMistakesLeft(prev => prev - 1);
+      const newMistakesLeft = mistakesLeft - 1;
+      setMistakesLeft(newMistakesLeft);
       setSelectedWords([]);
+      
+      // Optional: Show an alert for the last mistake
+      if (newMistakesLeft === 0) {
+        Alert.alert(
+          "Game Over",
+          "You've run out of attempts. Try again with a new puzzle!",
+          [{ text: "OK" }]
+        );
+      }
     }
   };
 
@@ -197,10 +208,13 @@ export function ConnectionsGame({ navigation }: ConnectionsGameProps) {
               onNewPuzzle={startNewPuzzle}
             />
           )}
+          {mistakesLeft === 0 && (
+            <GameOverScreen onNewPuzzle={startNewPuzzle} />
+          )}
           
           <View style={[
             styles.mainContent,
-            solvedGroups.length === 4 && styles.mainContentWithWinner
+            (solvedGroups.length === 4 || mistakesLeft === 0) && styles.mainContentWithWinner
           ]}>
             <Text style={styles.title}>Create four groups of four!</Text>
 
