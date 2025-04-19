@@ -14,9 +14,10 @@ import {
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import wordGroupsData from '../data/wordGroups.json';
 import { GROUP_COLORS } from '../constants/colors';
-import { getTodaysPuzzle } from '../utils/puzzleUtils';
+import { getRandomPuzzle, getTodaysPuzzle } from '../utils/puzzleUtils';
 import { WordGroups } from '../types/wordGroups';
 import { WinnerScreen } from '../app/components/WinnerScreen';
+import { saveGameState, loadGameState, clearGameState } from '../utils/gameState';
 
 type RootStackParamList = {
   Home: undefined;
@@ -49,15 +50,58 @@ export function ConnectionsGame({ navigation }: ConnectionsGameProps) {
   const [solveHintsLeft, setSolveHintsLeft] = useState(2);
   
   useEffect(() => {
-    try {
-      const { words, groups } = getTodaysPuzzle(wordGroupsData as WordGroups);
-      setShuffledWords(words);
-      setCurrentGroups(groups);
-    } catch (error) {
-      console.error('Error initializing game:', error);
-      Alert.alert('Error', 'Failed to initialize the game. Please try again.');
-    }
+    const initializeGame = async () => {
+      try {
+        const today = new Date().toISOString().slice(0, 10);
+        const savedState = await loadGameState();
+        
+        if (savedState && savedState.lastPlayedDate === today) {
+          // Restore saved state from the same day
+          setSelectedWords(savedState.selectedWords);
+          setMistakesLeft(savedState.mistakesLeft);
+          setSolvedGroups(savedState.solvedGroups);
+          setShuffledWords(savedState.shuffledWords);
+          setCurrentGroups(savedState.currentGroups);
+          setSolveHintsLeft(savedState.solveHintsLeft);
+        } else {
+          // Start new game for a new day
+          const { words, groups } = getTodaysPuzzle(wordGroupsData as WordGroups);
+          setShuffledWords(words);
+          setCurrentGroups(groups);
+          // Reset other state to initial values
+          setSelectedWords([]);
+          setMistakesLeft(4);
+          setSolvedGroups([]);
+          setSolveHintsLeft(2);
+        }
+      } catch (error) {
+        console.error('Error initializing game:', error);
+        Alert.alert('Error', 'Failed to initialize the game. Please try again.');
+      }
+    };
+
+    initializeGame();
   }, []);
+
+  useEffect(() => {
+    const saveState = async () => {
+      const today = new Date().toISOString().slice(0, 10);
+      await saveGameState({
+        selectedWords,
+        mistakesLeft,
+        solvedGroups,
+        shuffledWords,
+        currentGroups,
+        solveHintsLeft,
+        lastPlayedDate: today,
+      });
+    };
+
+    // Only save if we have initialized groups
+    if (currentGroups.length > 0) {
+      saveState();
+    }
+  }, [selectedWords, mistakesLeft, solvedGroups, shuffledWords, currentGroups, solveHintsLeft]);
 
   const toggleWord = (index: number) => {
     if (selectedWords.includes(index)) {
@@ -116,15 +160,41 @@ export function ConnectionsGame({ navigation }: ConnectionsGameProps) {
     setSolveHintsLeft(prev => prev - 1);
   };
 
+  const startNewPuzzle = async () => {
+    try {
+      // Clear the saved state
+      await clearGameState();
+      
+      // Get a new random puzzle instead of today's puzzle
+      const { words, groups } = getRandomPuzzle(wordGroupsData as WordGroups);
+      
+      // Reset all state
+      setShuffledWords(words);
+      setCurrentGroups(groups);
+      setSelectedWords([]);
+      setMistakesLeft(4);
+      setSolvedGroups([]);
+      setSolveHintsLeft(2);
+    } catch (error) {
+      console.error('Error starting new puzzle:', error);
+      Alert.alert('Error', 'Failed to start new puzzle. Please try again.');
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      <View style={[styles.backgroundImage, { backgroundColor: '#f5f5f5' }]}>
+      <ImageBackground 
+        source={require('../assets/background.png')} 
+        style={styles.backgroundImage}
+        resizeMode="cover"
+      >
         <View style={styles.gameContainer}>
           {solvedGroups.length === 4 && (
             <WinnerScreen 
               solvedGroups={currentGroups.filter(group => 
                 solvedGroups.includes(group.category)
-              )} 
+              )}
+              onNewPuzzle={startNewPuzzle}
             />
           )}
           
@@ -221,7 +291,7 @@ export function ConnectionsGame({ navigation }: ConnectionsGameProps) {
             </View>
           </View>
         </View>
-      </View>
+      </ImageBackground>
     </SafeAreaView>
   );
 }

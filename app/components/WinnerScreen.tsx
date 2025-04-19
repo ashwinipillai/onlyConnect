@@ -1,14 +1,16 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, Animated } from 'react-native';
+import { View, Text, StyleSheet, Animated, TouchableOpacity } from 'react-native';
 import ConfettiCannon from 'react-native-confetti-cannon';
 import { GROUP_COLORS } from '../../constants/colors';
 import { GroupType } from '../../types/wordGroups';
+import { Ionicons } from '@expo/vector-icons';
 
 interface WinnerScreenProps {
   solvedGroups: GroupType[];
+  onNewPuzzle: () => void;
 }
 
-export function WinnerScreen({ solvedGroups }: WinnerScreenProps) {
+export function WinnerScreen({ solvedGroups, onNewPuzzle }: WinnerScreenProps) {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const confettiRef = useRef<any>(null);
 
@@ -29,7 +31,16 @@ export function WinnerScreen({ solvedGroups }: WinnerScreenProps) {
   return (
     <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
       <View style={styles.contentContainer}>
-        <Text style={styles.victoryText}>You solved it!</Text>
+        <View style={styles.header}>
+          <Text style={styles.victoryText}>You solved it!</Text>
+          <TouchableOpacity 
+            style={styles.refreshButton}
+            onPress={onNewPuzzle}
+          >
+            <Ionicons name="refresh" size={24} color="#2C3E50" />
+            <Text style={styles.refreshText}>New Puzzle</Text>
+          </TouchableOpacity>
+        </View>
         
         <View style={styles.categoriesContainer}>
           {solvedGroups.map((group, index) => (
@@ -72,11 +83,31 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(0, 0, 0, 0.1)',
   },
+  header: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    marginBottom: 8,
+  },
   victoryText: {
     fontSize: 24,
     fontWeight: '700',
     color: '#2C3E50',
-    marginBottom: 8,
+  },
+  refreshButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 8,
+    borderRadius: 8,
+    backgroundColor: 'rgba(44, 62, 80, 0.1)',
+  },
+  refreshText: {
+    marginLeft: 4,
+    color: '#2C3E50',
+    fontSize: 14,
+    fontWeight: '600',
   },
   categoriesContainer: {
     flexDirection: 'row',

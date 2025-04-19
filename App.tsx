@@ -20,11 +20,13 @@ export default function App() {
           initialRouteName="Home"
           screenOptions={{
             headerStyle: {
-              backgroundColor: '#f4511e',
+              backgroundColor: '#2C3E50',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
-              fontWeight: 'bold',
+              fontWeight: '600',
+              fontSize: 18,
+              letterSpacing: 0.5,
             },
           }}
         >

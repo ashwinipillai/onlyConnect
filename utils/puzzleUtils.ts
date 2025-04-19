@@ -31,24 +31,28 @@ function seededShuffle<T>(array: T[], seed: number): T[] {
   return shuffled;
 }
 
-export function getTodaysPuzzle(wordGroups: WordGroups): { words: string[], groups: WordGroups['groups'] } {
-  // Get today's date in YYYY-MM-DD format
-  const today = new Date().toISOString().slice(0, 10);
-  
-  // Hash the date to get a seed
-  const seed = hashString(today);
-  
-  // Shuffle all groups using the seed
-  const shuffledGroups = seededShuffle([...wordGroups.groups], seed);
-  
-  // Take the first 4 groups
+// Get a random puzzle without using date as seed
+export function getRandomPuzzle(wordGroups: WordGroups): { words: string[], groups: WordGroups['groups'] } {
+  const randomSeed = Math.floor(Math.random() * 1000000);
+  const shuffledGroups = seededShuffle([...wordGroups.groups], randomSeed);
   const selectedGroups = shuffledGroups.slice(0, 4);
-  
-  // Flatten the words from these groups
   const allWords = selectedGroups.flatMap(group => group.words);
+  const shuffledWords = seededShuffle(allWords, randomSeed + 1);
   
-  // Shuffle the words normally (without seed) for display
-  const shuffledWords = [...allWords].sort(() => Math.random() - 0.5);
+  return {
+    words: shuffledWords,
+    groups: selectedGroups
+  };
+}
+
+// Get today's puzzle (for initial load)
+export function getTodaysPuzzle(wordGroups: WordGroups): { words: string[], groups: WordGroups['groups'] } {
+  const today = new Date().toISOString().slice(0, 10);
+  const seed = hashString(today);
+  const shuffledGroups = seededShuffle([...wordGroups.groups], seed);
+  const selectedGroups = shuffledGroups.slice(0, 4);
+  const allWords = selectedGroups.flatMap(group => group.words);
+  const shuffledWords = seededShuffle(allWords, seed + 1);
   
   return {
     words: shuffledWords,
