@@ -1,33 +1,40 @@
 {
   "expo": {
-    "name": "Connections",
-    "slug": "connections",
+    "name": "Only Connect",
+    "slug": "onlyConnect",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "ios": {
-      "supportsTablet": true
+    "updates": {
+      "enabled": false
     },
+    "assetBundlePatterns": [
+      "assets/*"
+    ],
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.ashwinipillai734.connections"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
+      "package": "com.ashwinipillai734.onlyconnect",
+      "jsEngine": "hermes",
+      "permissions": [],
+      "enableProguardInReleaseBuilds": true,
+      "enableShrinkResources": true,
+      "allowBackup": false,
+      "playStoreConfig": {
+        "featureGraphic": "./assets/store/feature-graphic.png"
+      }
     },
     "extra": {
       "eas": {
-        "projectId": "bc478019-a8fd-4845-b172-49354f539fbe"
+        "projectId": "a31f2196-fe87-4edc-a657-33f59f1b3cb7"
       }
     }
   }
