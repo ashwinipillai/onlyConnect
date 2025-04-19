@@ -16,6 +16,7 @@ import wordGroupsData from '../data/wordGroups.json';
 import { GROUP_COLORS } from '../constants/colors';
 import { getTodaysPuzzle } from '../utils/puzzleUtils';
 import { WordGroups } from '../types/wordGroups';
+import { WinnerScreen } from '../app/components/WinnerScreen';
 
 type RootStackParamList = {
   Home: undefined;
@@ -45,6 +46,7 @@ export function ConnectionsGame({ navigation }: ConnectionsGameProps) {
   const [solvedGroups, setSolvedGroups] = useState<string[]>([]);
   const [shuffledWords, setShuffledWords] = useState<string[]>([]);
   const [currentGroups, setCurrentGroups] = useState<WordGroups['groups']>([]);
+  const [solveHintsLeft, setSolveHintsLeft] = useState(2);
   
   useEffect(() => {
     try {
@@ -96,6 +98,24 @@ export function ConnectionsGame({ navigation }: ConnectionsGameProps) {
     return group ? currentGroups.indexOf(group) : -1;
   };
 
+  const solveOneGroup = () => {
+    const unsolvedGroups = currentGroups.filter(
+      group => !solvedGroups.includes(group.category)
+    );
+
+    if (unsolvedGroups.length === 0 || solveHintsLeft <= 0) return;
+
+    const randomGroup = unsolvedGroups[Math.floor(Math.random() * unsolvedGroups.length)];
+
+    const wordIndices = randomGroup.words.map(word => 
+      shuffledWords.findIndex(w => w === word)
+    );
+
+    setSolvedGroups(prev => [...prev, randomGroup.category]);
+    
+    setSolveHintsLeft(prev => prev - 1);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground 
@@ -104,79 +124,103 @@ export function ConnectionsGame({ navigation }: ConnectionsGameProps) {
         resizeMode="cover"
       >
         <View style={styles.gameContainer}>
-          <Text style={styles.title}>Create four groups of four!</Text>
-
-          {solvedGroups.length > 0 && (
-            <ScrollView style={styles.solvedGroupsSection}>
-              {solvedGroups.map((category, index) => {
-                const group = currentGroups.find(g => g.category === category);
-                if (!group) return null;
-                
-                return (
-                  <View 
-                    key={category} 
-                    style={[
-                      styles.solvedGroupContainer,
-                      { backgroundColor: GROUP_COLORS[index] }
-                    ]}
-                  >
-                    <View style={styles.solvedGroupHeader}>
-                      <Text style={styles.solvedGroupCategory}>{group.category}</Text>
-                      <Text style={styles.solvedGroupDescription}>{group.description}</Text>
-                    </View>
-                  </View>
-                );
-              })}
-            </ScrollView>
+          {solvedGroups.length === 4 && (
+            <WinnerScreen 
+              solvedGroups={currentGroups.filter(group => 
+                solvedGroups.includes(group.category)
+              )} 
+            />
           )}
+          
+          <View style={[
+            styles.mainContent,
+            solvedGroups.length === 4 && styles.mainContentWithWinner
+          ]}>
+            <Text style={styles.title}>Create four groups of four!</Text>
 
-          <View style={styles.gridContainer}>
-            {shuffledWords.map((word, index) => (
-              <TouchableOpacity
-                key={index}
-                style={[
-                  styles.tileButton,
-                  selectedWords.includes(index) && styles.selectedWord,
-                  isWordSolved(word) && { 
-                    backgroundColor: GROUP_COLORS[getGroupIndex(word)],
-                    borderColor: GROUP_COLORS[getGroupIndex(word)],
-                  }
-                ]}
-                onPress={() => toggleWord(index)}
-                disabled={isWordSolved(word)}
-              >
-                <Text style={[
-                  styles.wordText,
-                  isWordSolved(word) && { color: '#FFFFFF' }
-                ]}>
-                  {word}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-
-          <View style={styles.bottomSection}>
-            {selectedWords.length === 4 && (
-              <TouchableOpacity 
-                style={styles.submitButton}
-                onPress={checkSelection}
-              >
-                <Text style={styles.submitText}>Submit</Text>
-              </TouchableOpacity>
+            {solvedGroups.length > 0 && (
+              <ScrollView style={styles.solvedGroupsSection}>
+                {solvedGroups.map((category, index) => {
+                  const group = currentGroups.find(g => g.category === category);
+                  if (!group) return null;
+                  
+                  return (
+                    <View 
+                      key={category} 
+                      style={[
+                        styles.solvedGroupContainer,
+                        { backgroundColor: GROUP_COLORS[index] }
+                      ]}
+                    >
+                      <View style={styles.solvedGroupHeader}>
+                        <Text style={styles.solvedGroupCategory}>{group.category}</Text>
+                        <Text style={styles.solvedGroupDescription}>{group.description}</Text>
+                      </View>
+                    </View>
+                  );
+                })}
+              </ScrollView>
             )}
 
-            <View style={styles.mistakesContainer}>
-              <Text style={styles.mistakesText}>Mistakes Remaining:</Text>
-              <View style={styles.circlesContainer}>
-                {[...Array(4)].map((_, index) => (
-                  <View
-                    key={index}
-                    style={[
-                      styles.circle,
-                      index < mistakesLeft ? styles.filledCircle : styles.emptyCircle
-                    ]}
-                  />
-                ))}
+            <View style={styles.gridContainer}>
+              {shuffledWords.map((word, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={[
+                    styles.tileButton,
+                    selectedWords.includes(index) && styles.selectedWord,
+                    isWordSolved(word) && { 
+                      backgroundColor: GROUP_COLORS[getGroupIndex(word)],
+                      borderColor: GROUP_COLORS[getGroupIndex(word)],
+                    }
+                  ]}
+                  onPress={() => toggleWord(index)}
+                  disabled={isWordSolved(word)}
+                >
+                  <Text style={[
+                    styles.wordText,
+                    isWordSolved(word) && { color: '#FFFFFF' }
+                  ]}>
+                    {word}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+
+            <View style={styles.bottomSection}>
+              {selectedWords.length === 4 && (
+                <TouchableOpacity 
+                  style={styles.submitButton}
+                  onPress={checkSelection}
+                >
+                  <Text style={styles.submitText}>Submit</Text>
+                </TouchableOpacity>
+              )}
+
+              {solveHintsLeft > 0 && solvedGroups.length < 4 && (
+                <TouchableOpacity 
+                  style={styles.solveOneButton}
+                  onPress={solveOneGroup}
+                >
+                  <Text style={styles.solveOneText}>
+                    Solve next group? ({solveHintsLeft} left)
+                  </Text>
+                </TouchableOpacity>
+              )}
+
+              <View style={styles.mistakesContainer}>
+                <Text style={styles.mistakesText}>Mistakes Remaining:</Text>
+                <View style={styles.circlesContainer}>
+                  {[...Array(4)].map((_, index) => (
+                    <View
+                      key={index}
+                      style={[
+                        styles.circle,
+                        index < mistakesLeft ? styles.filledCircle : styles.emptyCircle
+                      ]}
+                    />
+                  ))}
+                </View>
               </View>
             </View>
           </View>
@@ -196,6 +240,13 @@ const styles = StyleSheet.create({
   gameContainer: {
     flex: 1,
     padding: PADDING,
+  },
+  mainContent: {
+    flex: 1,
+    paddingTop: 24,
+  },
+  mainContentWithWinner: {
+    paddingTop: 120, // Adjust this value based on your winner banner height
   },
   title: {
     color: '#2C3E50',
@@ -250,6 +301,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     alignItems: 'center',
+    gap: 8,
   },
   submitButton: {
     paddingHorizontal: 32,
@@ -350,6 +402,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
     minHeight: 50, // Ensure there's space for the banner
+  },
+  solveOneButton: {
+    paddingHorizontal: 24,
+    paddingVertical: 10,
+    borderRadius: 20,
+    backgroundColor: 'rgba(44, 62, 80, 0.1)',
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: '#2C3E50',
+  },
+  solveOneText: {
+    color: '#2C3E50',
+    fontSize: 14,
+    fontWeight: '600',
+    textAlign: 'center',
   },
 }); 
 
